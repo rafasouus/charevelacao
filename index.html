@@ -1,11 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chá Revelação - Miguel ou Catarina</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google GenAI SDK (ESM) -->
+    <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.run/@google/genai",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
+  }
+}
+</script>
+
     <script>
       tailwind.config = {
         theme: {
@@ -25,36 +49,439 @@
       }
     </script>
     <style>
-      body {
-        background-color: #fdfdfd;
-      }
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
-      }
+      body { background-color: #fdfdfd; }
+      .animate-float { animation: float 3s ease-in-out infinite; }
       @keyframes float {
         0% { transform: translateY(0px); }
         50% { transform: translateY(-10px); }
         100% { transform: translateY(0px); }
       }
+      .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+      }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.37.0",
-    "recharts": "https://esm.sh/recharts@^3.6.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "vite": "https://esm.sh/vite@^7.3.1",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
-  }
-}
-</script>
 <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+<body class="min-h-screen bg-gradient-to-br from-blue-100 via-white to-pink-100 font-sans text-gray-800 overflow-x-hidden relative selection:bg-purple-200">
+
+    <!-- Background Shapes -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-200/40 rounded-full blur-[100px] animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-pink-200/40 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s"></div>
+    </div>
+
+    <main class="relative z-10 max-w-5xl mx-auto px-4 py-8 flex flex-col items-center">
+        
+        <!-- Header -->
+        <header class="text-center mb-8 relative w-full">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-white/70 backdrop-blur-md rounded-full shadow-sm text-xs font-bold tracking-widest text-indigo-400 mb-6 border border-white uppercase">
+                ✨ Chá Revelação
+            </div>
+            
+            <div class="relative">
+                <h1 class="text-5xl md:text-8xl font-heading font-black text-transparent bg-clip-text bg-gradient-to-r from-[#5CA0D3] via-purple-400 to-[#D86B99] mb-4 drop-shadow-sm leading-tight tracking-tight">
+                    Miguel <br class="md:hidden" />
+                    <span class="text-3xl md:text-5xl text-gray-300 font-light align-middle mx-2">&</span>
+                    <br class="md:hidden" /> Catarina
+                </h1>
+            </div>
+            
+            <p class="text-gray-500 font-medium text-lg md:text-xl max-w-2xl mx-auto">
+                Faça sua aposta e ajude os papais a montarem o enxoval!
+            </p>
+        </header>
+
+        <!-- Info Cards -->
+        <div class="flex flex-col md:flex-row gap-4 w-full max-w-2xl justify-center mb-10">
+            <div class="glass p-4 rounded-2xl flex items-center gap-3 shadow-sm flex-1">
+                <div class="bg-blue-100 p-3 rounded-xl text-blue-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Data</p>
+                    <p class="font-heading font-bold text-gray-800 text-lg">14/02/2026</p>
+                    <p class="text-sm text-gray-500">Sábado às 15:30</p>
+                </div>
+            </div>
+            
+            <div class="glass p-4 rounded-2xl flex items-center gap-3 shadow-sm flex-1">
+                <div class="bg-pink-100 p-3 rounded-xl text-pink-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Local</p>
+                    <p class="font-heading font-bold text-gray-800 text-lg">Casa da Vovó</p>
+                    <p class="text-sm text-gray-500">Rua da Felicidade, 123</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Countdown -->
+        <div id="countdown" class="flex gap-3 sm:gap-6 justify-center mb-8">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 w-full mt-8">
+            
+            <!-- Voting Form -->
+            <div class="lg:col-span-7">
+                <div class="glass rounded-3xl shadow-xl overflow-hidden h-full flex flex-col p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-heading font-black text-gray-800 text-center mb-2">
+                        Qual é o seu palpite?
+                    </h2>
+                    <p class="text-center text-gray-500 mb-8">Escolha um time e deixe a IA criar uma previsão mágica!</p>
+                    
+                    <form id="votingForm" class="space-y-8">
+                        <div>
+                            <label for="guestName" class="block text-sm font-bold text-gray-600 mb-2 ml-1">Como devemos te chamar?</label>
+                            <input type="text" id="guestName" placeholder="Ex: Titia Maria, Vovô João..." class="w-full px-5 py-4 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-indigo-400 focus:ring-4 focus:ring-indigo-100 transition-all outline-none text-lg text-gray-700" required>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4 md:gap-6">
+                            <!-- Boy Option -->
+                            <div id="btnBoy" class="cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-gray-100 bg-white hover:border-blue-200 hover:shadow-lg hover:-translate-y-1" onclick="selectGender('BOY')">
+                                <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-blue-100 text-blue-400 group-hover:bg-blue-200 transition-colors" id="iconBoy">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor"><path d="M15.75 8.25a.75.75 0 01.75.75c0 1.12-.492 2.126-1.27 2.812a.75.75 0 11-1.004-1.124A2.245 2.245 0 0015 9a.75.75 0 01.75-.75z" /><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM6.106 17.494a.75.75 0 01.636-.28l.006-.001a1.49 1.49 0 00.74-.235 3.743 3.743 0 013.911-.37c.758.375 1.579.596 2.455.626a.75.75 0 01.037 1.499c-1.096-.038-2.124-.314-3.072-.782a5.243 5.243 0 00-5.48.517.75.75 0 01-1.066-.974l1.833-2.001zM11.25 9a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v3a.75.75 0 01-.75.75h-.008a.75.75 0 01-.75-.75V9z" clip-rule="evenodd" /></svg>
+                                </div>
+                                <span class="font-heading font-black text-xl text-gray-400 group-hover:text-blue-400" id="textBoy">Miguel</span>
+                                <span class="text-xs font-bold tracking-widest text-blue-300 mt-1 uppercase">Menino</span>
+                            </div>
+
+                            <!-- Girl Option -->
+                            <div id="btnGirl" class="cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-gray-100 bg-white hover:border-pink-200 hover:shadow-lg hover:-translate-y-1" onclick="selectGender('GIRL')">
+                                <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-pink-100 text-pink-400 group-hover:bg-pink-200 transition-colors" id="iconGirl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="currentColor"><path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" /></svg>
+                                </div>
+                                <span class="font-heading font-black text-xl text-gray-400 group-hover:text-pink-400" id="textGirl">Catarina</span>
+                                <span class="text-xs font-bold tracking-widest text-pink-300 mt-1 uppercase">Menina</span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submitBtn" disabled class="w-full py-4 rounded-xl font-bold text-lg text-white shadow-xl flex items-center justify-center gap-2 transition-all transform hover:shadow-2xl active:scale-95 bg-gray-400 cursor-not-allowed">
+                            Confirmar Voto
+                        </button>
+                    </form>
+
+                    <!-- AI Feedback -->
+                    <div id="aiFeedback" class="hidden mt-8 p-6 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-2xl shadow-sm relative overflow-hidden animate-float">
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="bg-yellow-400 p-2 rounded-lg text-white shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-yellow-800 text-sm uppercase mb-1 tracking-wide">Mensagem Mágica da IA</h4>
+                                <p id="aiMessageText" class="text-gray-700 font-medium italic text-lg leading-relaxed"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats & Chart -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                <div class="glass rounded-2xl shadow-sm border border-white p-6 flex flex-col items-center">
+                    <h3 class="text-lg font-heading font-bold text-gray-800 mb-4 w-full text-left flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-500"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        Placar da Galera
+                    </h3>
+                    
+                    <div class="relative w-48 h-48">
+                        <canvas id="voteChart"></canvas>
+                    </div>
+
+                    <div class="w-full grid grid-cols-2 gap-4 mt-6">
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-3 flex flex-col items-center">
+                           <span class="text-xs text-blue-400 font-bold uppercase mb-1">Time Miguel</span>
+                           <span class="text-2xl font-bold text-blue-600" id="statMiguel">0%</span>
+                        </div>
+               
+                        <div class="bg-pink-50 border border-pink-100 rounded-xl p-3 flex flex-col items-center">
+                           <span class="text-xs text-pink-400 font-bold uppercase mb-1">Time Catarina</span>
+                           <span class="text-2xl font-bold text-pink-600" id="statCatarina">0%</span>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-20 text-center text-gray-400 text-sm pb-8">
+            <p class="font-medium opacity-50">Feito com carinho para Miguel e Catarina ❤️</p>
+        </footer>
+
+    </main>
+
+    <!-- LOGIC -->
+    <script type="module">
+        import { GoogleGenAI } from "@google/genai";
+
+        // CONFIGURATION
+        // NOTE: The deploy script replaces __API_KEY_PLACEHOLDER__ with the actual secret
+        const API_KEY = '__API_KEY_PLACEHOLDER__'; 
+        
+        const GOOGLE_SHEET_URL = "https://script.google.com/macros/s/AKfycbzsSd8afh7jGQwmR5S3J8Abb98H2x4KHqGi38GM5DAwc8xPGxipud5tP3kYu-OCnFL3HQ/exec";
+        const TARGET_DATE = new Date('2026-02-14T15:30:00').getTime();
+
+        // STATE
+        let votes = [];
+        let selectedGender = null;
+        let chartInstance = null;
+
+        // --- DOM ELEMENTS ---
+        const btnBoy = document.getElementById('btnBoy');
+        const btnGirl = document.getElementById('btnGirl');
+        const submitBtn = document.getElementById('submitBtn');
+        const guestNameInput = document.getElementById('guestName');
+        const aiFeedback = document.getElementById('aiFeedback');
+        const aiMessageText = document.getElementById('aiMessageText');
+
+        // --- INITIALIZATION ---
+        window.addEventListener('load', () => {
+            loadVotes();
+            startCountdown();
+            renderChart();
+        });
+
+        // --- FUNCTIONS ---
+
+        // 1. Countdown Logic
+        function startCountdown() {
+            const container = document.getElementById('countdown');
+            
+            function update() {
+                const now = new Date().getTime();
+                const distance = TARGET_DATE - now;
+
+                if (distance < 0) {
+                    container.innerHTML = "Chegou o dia!";
+                    return;
+                }
+
+                const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+                const timeUnit = (val, label) => `
+                    <div class="flex flex-col items-center">
+                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-white/50 backdrop-blur-sm rounded-2xl shadow-sm border border-white flex items-center justify-center mb-1">
+                            <span class="text-xl sm:text-2xl font-bold text-gray-700 font-heading">${String(val).padStart(2, '0')}</span>
+                        </div>
+                        <span class="text-[10px] sm:text-xs text-gray-500 font-bold uppercase tracking-widest">${label}</span>
+                    </div>`;
+
+                container.innerHTML = `
+                    ${timeUnit(d, 'Dias')}
+                    <div class="pt-2 text-gray-300 font-bold text-xl">:</div>
+                    ${timeUnit(h, 'Hrs')}
+                    <div class="pt-2 text-gray-300 font-bold text-xl">:</div>
+                    ${timeUnit(m, 'Min')}
+                    <div class="pt-2 text-gray-300 font-bold text-xl">:</div>
+                    ${timeUnit(s, 'Seg')}
+                `;
+            }
+            setInterval(update, 1000);
+            update();
+        }
+
+        // 2. Selection Logic
+        window.selectGender = (gender) => {
+            selectedGender = gender;
+            
+            // Reset Styles
+            btnBoy.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-gray-100 bg-white hover:border-blue-200 hover:shadow-lg hover:-translate-y-1";
+            btnGirl.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-gray-100 bg-white hover:border-pink-200 hover:shadow-lg hover:-translate-y-1";
+            
+            document.getElementById('iconBoy').className = "w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-blue-100 text-blue-400 group-hover:bg-blue-200 transition-colors";
+            document.getElementById('iconGirl').className = "w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-pink-100 text-pink-400 group-hover:bg-pink-200 transition-colors";
+            
+            document.getElementById('textBoy').className = "font-heading font-black text-xl text-gray-400 group-hover:text-blue-400";
+            document.getElementById('textGirl').className = "font-heading font-black text-xl text-gray-400 group-hover:text-pink-400";
+
+            // Apply Active Style
+            if (gender === 'BOY') {
+                btnBoy.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-blue-400 bg-blue-50/80 shadow-[0_0_20px_rgba(59,130,246,0.3)] scale-[1.02] ring-2 ring-blue-200 ring-offset-2";
+                document.getElementById('iconBoy').className = "w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-blue-500 text-white";
+                document.getElementById('textBoy').className = "font-heading font-black text-xl text-blue-600";
+            } else {
+                btnGirl.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-pink-400 bg-pink-50/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] scale-[1.02] ring-2 ring-pink-200 ring-offset-2";
+                document.getElementById('iconGirl').className = "w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-pink-500 text-white";
+                document.getElementById('textGirl').className = "font-heading font-black text-xl text-pink-600";
+            }
+
+            checkForm();
+        };
+
+        guestNameInput.addEventListener('input', checkForm);
+
+        function checkForm() {
+            if (guestNameInput.value.trim() && selectedGender) {
+                submitBtn.disabled = false;
+                submitBtn.className = "w-full py-4 rounded-xl font-bold text-lg text-white shadow-xl flex items-center justify-center gap-2 transition-all transform hover:shadow-2xl active:scale-95 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 hover:brightness-110 cursor-pointer";
+            } else {
+                submitBtn.disabled = true;
+                submitBtn.className = "w-full py-4 rounded-xl font-bold text-lg text-white shadow-xl flex items-center justify-center gap-2 transition-all transform hover:shadow-2xl active:scale-95 bg-gray-400 cursor-not-allowed";
+            }
+        }
+
+        // 3. Voting & AI Logic
+        document.getElementById('votingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!selectedGender || !guestNameInput.value) return;
+
+            const name = guestNameInput.value;
+            submitBtn.innerHTML = "Consultando os astros...";
+            submitBtn.disabled = true;
+
+            let aiText = "";
+
+            // Call Gemini
+            if (API_KEY && !API_KEY.includes("PLACEHOLDER")) {
+                try {
+                    const ai = new GoogleGenAI({ apiKey: API_KEY });
+                    const babyName = selectedGender === 'BOY' ? "Miguel" : "Catarina";
+                    const genderText = selectedGender === 'BOY' ? "menino" : "menina";
+                    
+                    const response = await ai.models.generateContent({
+                        model: 'gemini-3-flash-preview',
+                        contents: `O convidado ${name} acha que o bebê será ${genderText} e se chamará ${babyName}. 
+                        Crie uma frase curta, rimada, engraçada e empolgante (máximo 20 palavras) em Português do Brasil agradecendo o voto e fazendo uma previsão divertida.`,
+                        config: { thinkingConfig: { thinkingBudget: 0 } }
+                    });
+                    aiText = response.text;
+                } catch (error) {
+                    console.error("AI Error", error);
+                    aiText = "Seu voto foi registrado com carinho!";
+                }
+            } else {
+                aiText = "Voto registrado! (Adicione a API Key para ver a mágica)";
+            }
+
+            const newVote = {
+                id: Date.now().toString(),
+                name: name,
+                guess: selectedGender,
+                timestamp: new Date().toLocaleDateString('pt-BR'),
+                aiMessage: aiText
+            };
+
+            // Save Local
+            votes.push(newVote);
+            localStorage.setItem('reveal_votes', JSON.stringify(votes));
+            
+            // Send to Sheet (Fire and Forget)
+            fetch(GOOGLE_SHEET_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain" },
+                body: JSON.stringify(newVote)
+            }).catch(e => console.log("Sheet Error", e));
+
+            // Update UI
+            renderChart();
+            // renderList() removed
+
+            // Show Feedback
+            aiMessageText.textContent = `"${aiText}"`;
+            aiFeedback.classList.remove('hidden');
+            
+            // Reset Form
+            submitBtn.innerHTML = "Voto Confirmado!";
+            setTimeout(() => {
+                submitBtn.innerHTML = "Confirmar Voto";
+                guestNameInput.value = "";
+                selectedGender = null;
+                // Reset styling (simplified)
+                selectGender(null); 
+                btnBoy.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-gray-100 bg-white hover:border-blue-200";
+                btnGirl.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-gray-100 bg-white hover:border-pink-200";
+                checkForm();
+            }, 3000);
+        });
+
+        // 4. Data Loading
+        function loadVotes() {
+            const local = localStorage.getItem('reveal_votes');
+            if (local) votes = JSON.parse(local);
+            
+            // Try fetching from sheet to sync
+            fetch(GOOGLE_SHEET_URL)
+                .then(r => r.json())
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        const mapped = data.map(item => ({
+                            id: item.id || Math.random().toString(),
+                            name: item.name,
+                            guess: (item.guess === "MIGUEL" || item.guess === "BOY") ? 'BOY' : 'GIRL',
+                            timestamp: item.timestamp,
+                            aiMessage: item.aiMessage
+                        }));
+                        votes = mapped;
+                        localStorage.setItem('reveal_votes', JSON.stringify(votes));
+                        renderChart();
+                    }
+                })
+                .catch(e => console.log("Fetch Error", e));
+        }
+
+        // 5. Chart Rendering
+        function renderChart() {
+            const miguelCount = votes.filter(v => v.guess === 'BOY').length;
+            const catarinaCount = votes.filter(v => v.guess === 'GIRL').length;
+            const total = miguelCount + catarinaCount;
+
+            // Update Text Stats
+            const mPct = total === 0 ? 0 : Math.round((miguelCount / total) * 100);
+            const cPct = total === 0 ? 0 : Math.round((catarinaCount / total) * 100);
+            document.getElementById('statMiguel').textContent = mPct + "%";
+            document.getElementById('statCatarina').textContent = cPct + "%";
+
+            // Chart.js
+            const ctx = document.getElementById('voteChart').getContext('2d');
+            
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Miguel', 'Catarina'],
+                    datasets: [{
+                        data: [miguelCount, catarinaCount],
+                        backgroundColor: ['#5CA0D3', '#D86B99'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                            titleColor: '#333',
+                            bodyColor: '#666',
+                            borderColor: '#ddd',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ${context.raw} votos`;
+                                }
+                            }
+                        }
+                    },
+                    cutout: '70%',
+                }
+            });
+        }
+        
+        // renderList function removed
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
 </html>

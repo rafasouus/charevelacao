@@ -1,4 +1,4 @@
-cd "C:\Users\User\iCloudDrive\VSCode\CHAREVELACAO"
+cd "C:\Users\User\iCloudDrive\VSCode\CHA-REVELACAO"
 
 git pull --rebase
 

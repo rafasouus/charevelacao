@@ -1,0 +1,17 @@
+cd "C:\Users\User\iCloudDrive\VSCode\CHAREVELACAO"
+
+git pull --rebase
+
+git add .
+
+$ts = Get-Date -Format "yyyy-MM-dd HH:mm"
+$msg = "chore(release): update $ts"
+
+git diff --cached --quiet; if ($LASTEXITCODE -eq 0) { 
+  Write-Host "Nada para commitar."
+} else { 
+  git commit -m $msg
+}
+
+git push -u origin main
+git status

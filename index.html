@@ -18,10 +18,17 @@
     <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.run/@google/genai"
+    "@google/genai": "https://esm.run/@google/genai",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "recharts": "https://esm.sh/recharts@^3.6.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
-    </script>
+</script>
 
     <script>
       tailwind.config = {
@@ -56,6 +63,7 @@
         border: 1px solid rgba(255, 255, 255, 0.9);
       }
     </style>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-100 via-white to-pink-100 font-sans text-gray-800 overflow-x-hidden relative selection:bg-purple-200">
 
@@ -221,18 +229,6 @@
         let votes = [];
         let selectedGender = null;
         let chartInstance = null;
-        const fallbackMessages = [
-            "Voto registrado! Que venha um dia cheio de amor e alegria.",
-            "Seu palpite chegou! A festa vai ser inesquecivel.",
-            "Obrigada(o) pelo carinho! A revelacao vai encantar.",
-            "Voto confirmado! Que a celebracao seja doce e leve.",
-            "Palpite anotado com amor! Prepare o coracao.",
-            "Registramos seu voto! Que a alegria transborde.",
-            "Tudo certo! Seu palpite deixou o clima ainda mais lindo.",
-            "Voto feito! Em breve a surpresa mais esperada.",
-            "Seu carinho foi anotado! Vamos celebrar juntos.",
-            "Voto confirmado! Que a espera seja cheia de luz."
-        ];
 
         // --- DOM ELEMENTS ---
         const btnBoy = document.getElementById('btnBoy');
@@ -310,7 +306,7 @@
                 btnBoy.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-blue-400 bg-blue-50/80 shadow-[0_0_20px_rgba(59,130,246,0.3)] scale-[1.02] ring-2 ring-blue-200 ring-offset-2";
                 document.getElementById('iconBoy').className = "w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-blue-500 text-white";
                 document.getElementById('textBoy').className = "font-heading font-black text-xl text-blue-600";
-            } else if (gender === 'GIRL') {
+            } else {
                 btnGirl.className = "cursor-pointer relative group rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-300 border-pink-400 bg-pink-50/80 shadow-[0_0_20px_rgba(236,72,153,0.3)] scale-[1.02] ring-2 ring-pink-200 ring-offset-2";
                 document.getElementById('iconGirl').className = "w-20 h-20 rounded-full flex items-center justify-center mb-4 bg-pink-500 text-white";
                 document.getElementById('textGirl').className = "font-heading font-black text-xl text-pink-600";
@@ -342,9 +338,6 @@
 
             let aiText = "";
 
-            const pickFallbackMessage = () =>
-                fallbackMessages[Math.floor(Math.random() * fallbackMessages.length)];
-
             // Call Gemini
             if (API_KEY && !API_KEY.includes("PLACEHOLDER")) {
                 try {
@@ -361,10 +354,10 @@
                     aiText = response.text;
                 } catch (error) {
                     console.error("AI Error", error);
-                    aiText = pickFallbackMessage();
+                    aiText = "Seu voto foi registrado com carinho!";
                 }
             } else {
-                aiText = pickFallbackMessage();
+                aiText = "Voto registrado! (Adicione a API Key para ver a mágica)";
             }
 
             const newVote = {
@@ -489,5 +482,6 @@
         
         // renderList function removed
     </script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>

@@ -149,7 +149,7 @@ const App: React.FC = () => {
                 <div>
                     <p className="text-xs text-gray-500 font-bold uppercase tracking-wider">Local</p>
                     <p className="font-heading font-bold text-gray-800 text-lg">Casa da Vovó</p>
-                    <p className="text-sm text-gray-500">Rua da Felicidade, 123</p>
+                    <p className="text-sm text-gray-500">Alameda A-2, Qd 01 - L01, Aparecida de Goiânia, 74950-355, GO, BR</p>
                 </div>
             </div>
         </div>
